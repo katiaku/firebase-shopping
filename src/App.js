@@ -1,10 +1,15 @@
+import React from 'react';
 import { app } from './firebase';
+import Header from './components/Header';
 
 function App() {
   return (
-    <div>
-      Welcome to FireShopping
-    </div>
+    <>
+      <Header />
+      <main className='p-6'>
+        Welcome to FireShopping
+      </main>
+    </>
   );
 }
 
