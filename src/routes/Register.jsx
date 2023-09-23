@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import toast from 'react-hot-toast';
+import { AppContext } from '../App';
 
 const auth = getAuth();
 
 const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { setRoute } = useContext(AppContext);
     const createUser = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -13,6 +16,8 @@ const Register = () => {
                 const user = userCredential.user;
                 // ...
                 console.log(user);
+                toast(`User ${email} registered correctly!`);
+                setRoute("home");
             })
             .catch((error) => {
                 const errorCode = error.code;
