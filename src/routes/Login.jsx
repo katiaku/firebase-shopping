@@ -5,7 +5,7 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 const Login = () => {
-    const hazLogin = () => {
+    const doLogin = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
@@ -30,12 +30,12 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className='flex flex-col gap-4 items-center'>
             <h1 className='text-xl font-semibold text-sky-700'>
                 Welcome to Login
             </h1>
             <p className='text-sm'>Press the button to login</p>
-            <button onClick={hazLogin}>Login</button>
+            <button onClick={doLogin} className='bg-sky-400 px-3 py-1 text-white rounded shadow'>Login</button>
         </div>
     )
 }
