@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import toast from 'react-hot-toast';
+import { AppContext } from '../App';
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -8,6 +9,7 @@ const auth = getAuth();
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { setUser } = useContext(AppContext);
 
     const doLoginGoogle = () => {
         signInWithPopup(auth, provider)
@@ -20,7 +22,9 @@ const Login = () => {
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
                 console.log('token', token);
-                console.log('user', user)
+                console.log('user', user);
+                toast('Logged in successfully!');
+                setUser(user);
             }).catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
@@ -40,7 +44,8 @@ const Login = () => {
                 // Signed in 
                 const user = userCredential.user;
                 // ...
-                toast('Signed in successfully!');
+                toast('Logged in successfully!');
+                setUser(user);
             })
             .catch((error) => {
                 const errorCode = error.code;

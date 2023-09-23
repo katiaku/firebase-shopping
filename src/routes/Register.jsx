@@ -8,7 +8,7 @@ const auth = getAuth();
 const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { setRoute } = useContext(AppContext);
+    const { setRoute, setUser } = useContext(AppContext);
     const createUser = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -17,6 +17,7 @@ const Register = () => {
                 // ...
                 console.log(user);
                 toast(`User ${email} registered correctly!`);
+                setUser(user);
                 setRoute("home");
             })
             .catch((error) => {
