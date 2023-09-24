@@ -7,6 +7,7 @@ import Register from './routes/Register';
 import Shopping from './routes/Shopping';
 import { Toaster, toast } from 'react-hot-toast';
 import { onMessage } from "firebase/messaging"
+import Footer from './components/Footer';
 
 export const AppContext = createContext(null);
 
@@ -27,15 +28,18 @@ function App() {
 
   return (
     <AppContext.Provider value={{ route, setRoute, user, setUser }}>
+      <div className='h-screen'>
       <Toaster />
-      <Header />
-      <main className='p-6'>
-        {route === "home" && <Home />}
-        {route === "login" && <Login />}
-        {route === "register" && <Register />}
-        {route === "shopping" && <Shopping />}
-        {user && <p>Logged in: {user.email}</p>}
-      </main>
+        <Header />
+        <main className='px-6 pt-24 pb-20'>
+          {route === "home" && <Home />}
+          {route === "login" && <Login />}
+          {route === "register" && <Register />}
+          {route === "shopping" && <Shopping />}
+          {user && <p>Logged in: {user.email}</p>}
+        </main>
+        <Footer />
+      </div>
     </AppContext.Provider>
   );
 }
