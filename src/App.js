@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Home from './routes/Home';
 import Login from './routes/Login';
 import Register from './routes/Register';
+import Shopping from './routes/Shopping';
 import { Toaster, toast } from 'react-hot-toast';
 import { onMessage } from "firebase/messaging"
 
@@ -32,6 +33,7 @@ function App() {
         {route === "home" && <Home />}
         {route === "login" && <Login />}
         {route === "register" && <Register />}
+        {route === "shopping" && <Shopping />}
         {user && <p>Logged in: {user.email}</p>}
       </main>
     </AppContext.Provider>
