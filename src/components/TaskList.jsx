@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addNewTask, getTasks, updateTask } from '../firebase/taskController';
+import { addNewTask, deleteTask, getTasks, updateTask } from '../firebase/taskController';
 
 const task = {
     title: "This is the title",
@@ -36,6 +36,11 @@ const TaskList = () => {
         setMode('update');
         const taskToEdit = tasks.find(t => t.id === id);
         setTask({ ...taskToEdit });
+    }
+
+    const removeTask = async id => {
+        await deleteTask(id);
+        initializeTasks();
     }
 
     useEffect(() => {
@@ -85,7 +90,12 @@ const TaskList = () => {
                             >
                                 Edit
                             </button>
-                            <button className='bg-red-600 text-white py-1 px-2 rounded'>Delete</button>
+                            <button
+                                className='bg-red-600 text-white py-1 px-2 rounded'
+                                onClick={() => window.confirm("Are you sure to delete this task?") && removeTask(task.id)}
+                            >
+                                Delete
+                            </button>
                         </div>
                     </div>
                 ))}

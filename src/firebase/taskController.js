@@ -1,5 +1,5 @@
 import { db } from "./index";
-import { doc, collection, addDoc, getDocs, setDoc } from "firebase/firestore"; 
+import { doc, collection, addDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore"; 
 
 export const addNewTask = async task => {
     const docRef = await addDoc(collection(db, "tasks"), task);
@@ -24,4 +24,8 @@ export const updateTask = async (task) => {
         title: task.title,
         description: task.description
     })
+}
+
+export const deleteTask = async (id) => {
+    await deleteDoc(doc(db, "tasks", id));
 }
