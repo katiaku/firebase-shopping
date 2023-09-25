@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { addNewTask, deleteTask, getTasks, updateTask } from '../firebase/taskController';
 
 const task = {
@@ -12,6 +12,8 @@ const TaskList = () => {
     const [task, setTask] = useState({ title: "", description: "" });
     const [tasks, setTasks] = useState([]);
     const [mode, setMode] = useState('add');
+
+    const {user} = useContext(AppContext);
 
     const createNewTask = async () => {
         await addNewTask(task);
@@ -56,7 +58,8 @@ const TaskList = () => {
                     type="text"
                     value={task.title}
                     placeholder="Title"
-                    className='border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full' 
+                    className='border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full'
+                    disabled={!user}
                     onChange={e => setTask({ ...task, title: e.target.value })}
                 />
                 <textarea
@@ -64,11 +67,13 @@ const TaskList = () => {
                     rows={3}
                     value={task.description}
                     placeholder="Description"
-                    className='border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full' 
+                    className='border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full'
+                    disabled={!user}
                     onChange={e => setTask({ ...task, description: e.target.value })}
                 />
                 <button
-                    className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold'
+                    className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold disabled:bg-sky-200'
+                    disabled={!user}
                     onClick={() => mode === "add" ? createNewTask() : updateExistingTask()}
                 >
                     {mode === "add" ? "Add" : "Edit"}
@@ -100,6 +105,7 @@ const TaskList = () => {
                     </div>
                 ))}
             </div>
+            {!user && <p className='text-red-600'>Log in to read and add tasks!</p>}
         </div>
     )
 }
