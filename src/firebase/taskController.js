@@ -1,9 +1,8 @@
 import { db } from "./index";
-import { collection, addDoc, getDocs } from "firebase/firestore"; 
+import { doc, collection, addDoc, getDocs, setDoc } from "firebase/firestore"; 
 
 export const addNewTask = async task => {
     const docRef = await addDoc(collection(db, "tasks"), task);
-    console.log("Document written with ID: ", docRef.id);
 }
 
 export const getTasks = async () => {
@@ -18,4 +17,11 @@ export const getTasks = async () => {
         return { ...doc.data(), id: doc.id }
     })
     return tasks;
+}
+
+export const updateTask = async (task) => {
+    await setDoc(doc(db, "tasks", task.id), {
+        title: task.title,
+        description: task.description
+    })
 }

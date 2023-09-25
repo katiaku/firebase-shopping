@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addNewTask, getTasks } from '../firebase/taskController';
+import { addNewTask, getTasks, updateTask } from '../firebase/taskController';
 
 const task = {
     title: "This is the title",
@@ -11,6 +11,7 @@ const TaskList = () => {
     // const [description, setDescription] = useState("");
     const [task, setTask] = useState({ title: "", description: "" });
     const [tasks, setTasks] = useState([]);
+    const [mode, setMode] = useState('add');
 
     const createNewTask = async () => {
         await addNewTask(task);
@@ -18,10 +19,23 @@ const TaskList = () => {
         initializeTasks();
     }
 
+    const updateExistingTask = async () => {
+        await updateTask(task);
+        setTask({ title: "", description: "" });
+        initializeTasks();
+        setMode("add");
+    }
+
     const initializeTasks = () => {
         getTasks()
         .then(t => setTasks([...t])
         .catch(e => console.error(e)));
+    }
+
+    const editTask = id => {
+        setMode('update');
+        const taskToEdit = tasks.find(t => t.id === id);
+        setTask({ ...taskToEdit });
     }
 
     useEffect(() => {
@@ -48,10 +62,14 @@ const TaskList = () => {
                     className='border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full' 
                     onChange={e => setTask({ ...task, description: e.target.value })}
                 />
-                <button className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold' onClick={createNewTask}>Add</button>
+                <button
+                    className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold'
+                    onClick={() => mode === "add" ? createNewTask() : updateExistingTask()}
+                >
+                    {mode === "add" ? "Add" : "Edit"}
+                </button>
             </div>
-            <button onClick={getTasks}>Get Tasks</button>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
                 {tasks.map((task) => (
                     <div
                         key={task.id}
@@ -60,6 +78,15 @@ const TaskList = () => {
                         <h1 className='font-semibold'>{task.title}</h1>
                         <div className='border-t border-sky-300'></div>
                         <p>{task.description}</p>
+                        <div className='flex justify-between'>
+                            <button
+                                className='bg-sky-400 text-white py-1 px-2 rounded'
+                                onClick={() => editTask(task.id)}
+                            >
+                                Edit
+                            </button>
+                            <button className='bg-red-600 text-white py-1 px-2 rounded'>Delete</button>
+                        </div>
                     </div>
                 ))}
             </div>
