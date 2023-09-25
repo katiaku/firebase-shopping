@@ -46,4 +46,4 @@ const sendTokenToServer = token => {
     localStorage.setitem('tokenSentToServer', '1');
 }
 
-const db = getFirestore();
+export const db = getFirestore();

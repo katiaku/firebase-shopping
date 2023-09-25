@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { addNewTask } from '../firebase/taskController';
 
 const task = {
     title: "This is the title",
@@ -9,6 +10,11 @@ const TaskList = () => {
     // const [title, setTitle] = useState("");
     // const [description, setDescription] = useState("");
     const [task, setTask] = useState({ title: "", description: "" });
+
+    const createNewTask = async () => {
+        console.log(task);
+        await addNewTask(task);
+    }
 
     return (
         <div>
@@ -30,7 +36,7 @@ const TaskList = () => {
                     className='border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full' 
                     onChange={e => setTask({ ...task, description: e.target.value })}
                 />
-                <button className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold'>Add</button>
+                <button className='bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold' onClick={createNewTask}>Add</button>
             </div>
         </div>
     )
