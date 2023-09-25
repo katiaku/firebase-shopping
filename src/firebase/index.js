@@ -2,7 +2,8 @@
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getMessaging, getToken } from "firebase/messaging"
+import { getMessaging, getToken } from "firebase/messaging";
+import { getFirestore } from "firebase/firestore"
 
 const vapidKey = "BCOsmBzW_V8G7khb2URk5Lt9wIu_ruuyDGhyVa-Br9Ook1i-r17iNsSysIyHPxvNGTht8pDs5ARSxNrKokamdoI";
 
@@ -44,3 +45,5 @@ const sendTokenToServer = token => {
     console.log('The token is saved');
     localStorage.setitem('tokenSentToServer', '1');
 }
+
+const db = getFirestore();
